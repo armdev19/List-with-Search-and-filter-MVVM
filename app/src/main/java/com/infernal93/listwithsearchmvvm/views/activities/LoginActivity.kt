@@ -1,11 +1,13 @@
 package com.infernal93.listwithsearchmvvm.views.activities
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProviders
+import com.google.firebase.auth.FirebaseAuth
 import com.infernal93.listwithsearchmvvm.R
 import com.infernal93.listwithsearchmvvm.databinding.ActivityLoginBinding
 import com.infernal93.listwithsearchmvvm.utils.longToast
@@ -18,9 +20,13 @@ import net.yslibrary.android.keyboardvisibilityevent.KeyboardVisibilityEventList
 class LoginActivity : AppCompatActivity(), LoginListener, KeyboardVisibilityEventListener {
     private val TAG = "LoginActivity"
 
+    private lateinit var mAuth: FirebaseAuth
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         //setContentView(R.layout.activity_login)
+
+        mAuth = FirebaseAuth.getInstance()
 
         val binding: ActivityLoginBinding =DataBindingUtil.setContentView(this@LoginActivity, R.layout.activity_login)
         val loginViewModel = ViewModelProviders.of(this@LoginActivity).get(LoginViewModel::class.java)
@@ -30,6 +36,8 @@ class LoginActivity : AppCompatActivity(), LoginListener, KeyboardVisibilityEven
 
         // Keyboard visibility
         KeyboardVisibilityEvent.setEventListener(this, this)
+
+
     }
 
     override fun startLoading() {
@@ -48,6 +56,11 @@ class LoginActivity : AppCompatActivity(), LoginListener, KeyboardVisibilityEven
 
     override fun getLoginAndPassword() {
         longToast(R.string.login_and_password)
+    }
+
+    override fun validateLoginAndPassword() {
+        startActivity(Intent(applicationContext, CategoryActivity::class.java))
+        finish()
     }
 
     override fun onVisibilityChanged(isKeyboardOpen: Boolean) {

@@ -61,7 +61,7 @@
                     android:hint="@string/email_text"
                     android:inputType="textEmailAddress"
                     android:textColorHint="@color/dark_gray"
-                    android:text="@={loginViewModel.email}"/>
+                    android:text="@={loginViewModel.mEmail}"/>
 
                 <EditText
                     android:id="@+id/login_password"
@@ -74,7 +74,7 @@
                     android:hint="@string/password_text"
                     android:inputType="textPassword"
                     android:textColorHint="@color/dark_gray"
-                    android:text="@={loginViewModel.password}"/>
+                    android:text="@={loginViewModel.mPassword}"/>
 
                 <com.github.rahatarmanahmed.cpv.CircularProgressView
                     android:id="@+id/cpv_login"
@@ -100,7 +100,7 @@
                     android:textAllCaps="false"
                     android:textColor="@color/white"
                     android:textSize="@dimen/login_btns_text_size"
-                    android:onClick="@{loginViewModel::testLoginButtonClick}"/>
+                    android:onClick="@{(view) -> loginViewModel.login(view)}"/>
 
                 <Button
                     android:id="@+id/btn_registration"

@@ -9,4 +9,5 @@ interface LoginListener {
     fun endLoading()
     fun showError(textResource: Int)
     fun getLoginAndPassword()
+    fun validateLoginAndPassword()
 }
