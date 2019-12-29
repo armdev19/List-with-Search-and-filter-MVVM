@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="loginViewModel"
+            type="com.infernal93.listwithsearchmvvm.viewmodels.LoginViewModel" />
+    </data>
+
+    <ScrollView
+        android:id="@+id/root_scroll_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true"
+        android:scrollbars="none">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            tools:context=".views.activities.LoginActivity">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/constraint"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/txt_login_welcome"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="70dp"
+                    android:text="@string/login_welcome_text"
+                    android:textColor="@color/black"
+                    android:textSize="45sp"
+                    android:textStyle="bold"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:focusable="true"
+                android:focusableInTouchMode="true" >
+
+                <EditText
+                    android:id="@+id/login_email"
+                    android:layout_width="300dp"
+                    android:layout_height="50dp"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="200dp"
+                    android:background="@drawable/bg_inputs"
+                    android:ems="10"
+                    android:hint="@string/email_text"
+                    android:inputType="textEmailAddress"
+                    android:textColorHint="@color/dark_gray"
+                    android:text="@={loginViewModel.email}"/>
+
+                <EditText
+                    android:id="@+id/login_password"
+                    android:layout_width="300dp"
+                    android:layout_height="50dp"
+                    android:layout_below="@id/login_email"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="10dp"
+                    android:background="@drawable/bg_inputs"
+                    android:hint="@string/password_text"
+                    android:inputType="textPassword"
+                    android:textColorHint="@color/dark_gray"
+                    android:text="@={loginViewModel.password}"/>
+
+                <com.github.rahatarmanahmed.cpv.CircularProgressView
+                    android:id="@+id/cpv_login"
+                    android:layout_width="@dimen/cpv_size"
+                    android:layout_height="@dimen/cpv_size"
+                    android:layout_below="@id/login_password"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="15dp"
+                    android:visibility="gone"
+                    app:cpv_animAutostart="true"
+                    app:cpv_color="@color/colorPrimary"
+                    app:cpv_indeterminate="true" />
+
+                <Button
+                    android:id="@+id/btn_login_enter"
+                    android:layout_width="250dp"
+                    android:layout_height="50dp"
+                    android:layout_below="@id/cpv_login"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="20dp"
+                    android:background="@drawable/bg_buttons"
+                    android:text="@string/login_btn_text"
+                    android:textAllCaps="false"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/login_btns_text_size"
+                    android:onClick="@{loginViewModel::testLoginButtonClick}"/>
+
+                <Button
+                    android:id="@+id/btn_registration"
+                    android:layout_width="250dp"
+                    android:layout_height="50dp"
+                    android:layout_below="@id/btn_login_enter"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="20dp"
+                    android:background="@drawable/bg_buttons"
+                    android:text="@string/registration_btn_text"
+                    android:textAllCaps="false"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/login_btns_text_size"
+                    android:onClick="@{loginViewModel::testRegisterButtonClick}"/>
+            </RelativeLayout>
+
+        </RelativeLayout>
+    </ScrollView>
+</layout>
