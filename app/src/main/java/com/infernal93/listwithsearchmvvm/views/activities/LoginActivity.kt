@@ -28,7 +28,7 @@ class LoginActivity : AppCompatActivity(), LoginListener, KeyboardVisibilityEven
 
         mAuth = FirebaseAuth.getInstance()
 
-        val binding: ActivityLoginBinding =DataBindingUtil.setContentView(this@LoginActivity, R.layout.activity_login)
+        val binding: ActivityLoginBinding = DataBindingUtil.setContentView(this@LoginActivity, R.layout.activity_login)
         val loginViewModel = ViewModelProviders.of(this@LoginActivity).get(LoginViewModel::class.java)
         binding.loginViewModel = loginViewModel
 
