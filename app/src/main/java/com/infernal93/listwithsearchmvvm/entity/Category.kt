@@ -1,18 +1,18 @@
 package com.infernal93.listwithsearchmvvm.entity
 
-import android.text.TextUtils.indexOf
-import com.infernal93.listwithsearchmvvm.remote.CategoryClient
-
+import com.google.gson.annotations.SerializedName
 
 /**
  * Created by Armen Mkhitaryan on 29.12.2019.
  */
 
-class Category {
-
-    var name: String = ""
-    var icon: String = ""
-    var category: String = ""
-    var price: Int = 0
-
-}
+data class Category(
+    @SerializedName("category")
+    val category: String,
+    @SerializedName("icon")
+    val icon: String,
+    @SerializedName("name")
+    val name: String,
+    @SerializedName("price")
+    val price: Int
+)

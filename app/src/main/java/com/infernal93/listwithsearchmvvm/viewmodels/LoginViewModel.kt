@@ -10,22 +10,13 @@ import com.infernal93.listwithsearchmvvm.views.interfaces.LoginListener
  * Created by Armen Mkhitaryan on 29.12.2019.
  */
 
-class LoginViewModel : ViewModel() {
+class LoginViewModel  : ViewModel() {
 
     var mEmail: String = ""
     var mPassword: String = ""
     private lateinit var mAuth: FirebaseAuth
 
     var loginListener: LoginListener? = null
-
-    fun testLogin(view: View) {
-        loginListener?.startLoading()
-        if (mEmail.isNullOrEmpty() || mPassword.isNullOrEmpty()) {
-            loginListener?.showError(textResource = R.string.invalid_email_or_password)
-            return
-        }
-        loginListener?.endLoading()
-    }
 
     fun login(view: View) {
 
@@ -50,4 +41,13 @@ class LoginViewModel : ViewModel() {
     fun testRegisterButtonClick(view: View) {
         loginListener?.getLoginAndPassword()
     }
+
+    //    fun testLogin(view: View) {
+//        loginListener?.startLoading()
+//        if (mEmail.isNullOrEmpty() || mPassword.isNullOrEmpty()) {
+//            loginListener?.showError(textResource = R.string.invalid_email_or_password)
+//            return
+//        }
+//        loginListener?.endLoading()
+//    }
 }

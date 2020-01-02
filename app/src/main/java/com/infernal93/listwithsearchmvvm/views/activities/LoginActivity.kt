@@ -24,10 +24,10 @@ class LoginActivity : AppCompatActivity(), LoginListener, KeyboardVisibilityEven
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        //setContentView(R.layout.activity_login)
 
         mAuth = FirebaseAuth.getInstance()
 
+        // MVVM implementation without Dagger
         val binding: ActivityLoginBinding = DataBindingUtil.setContentView(this@LoginActivity, R.layout.activity_login)
         val loginViewModel = ViewModelProviders.of(this@LoginActivity).get(LoginViewModel::class.java)
         binding.loginViewModel = loginViewModel
@@ -36,8 +36,6 @@ class LoginActivity : AppCompatActivity(), LoginListener, KeyboardVisibilityEven
 
         // Keyboard visibility
         KeyboardVisibilityEvent.setEventListener(this, this)
-
-
     }
 
     override fun startLoading() {
@@ -63,6 +61,7 @@ class LoginActivity : AppCompatActivity(), LoginListener, KeyboardVisibilityEven
         finish()
     }
 
+    // Keyboard visibility
     override fun onVisibilityChanged(isKeyboardOpen: Boolean) {
         if (isKeyboardOpen) {
             root_scroll_view.scrollTo(0, root_scroll_view.bottom)

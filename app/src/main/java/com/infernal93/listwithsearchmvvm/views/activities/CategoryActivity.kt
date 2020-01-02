@@ -11,23 +11,30 @@ import android.view.MenuItem
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
-import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.OrientationHelper
 import com.google.firebase.auth.FirebaseAuth
 import com.infernal93.listwithsearchmvvm.R
-import com.infernal93.listwithsearchmvvm.databinding.ActivityCategoryBinding
+import com.infernal93.listwithsearchmvvm.di.factory.CategoryViewModelFactory
 import com.infernal93.listwithsearchmvvm.entity.Category
 import com.infernal93.listwithsearchmvvm.viewmodels.CategoryViewModel
 import com.infernal93.listwithsearchmvvm.views.adapters.CategoryAdapter
 import com.infernal93.listwithsearchmvvm.views.interfaces.CategoryListener
+import dagger.Binds
+import dagger.Component
+import dagger.Module
 import kotlinx.android.synthetic.main.activity_category.*
-
+import javax.inject.Inject
 
 class CategoryActivity : AppCompatActivity(), CategoryListener {
     private val TAG = "CategoryActivity"
+
+    @Inject
+    lateinit var factory: ViewModelProvider.Factory
+    lateinit var categoryViewModel: CategoryViewModel
 
     private lateinit var mAuth: FirebaseAuth
     private lateinit  var toolbar: Toolbar
@@ -36,19 +43,20 @@ class CategoryActivity : AppCompatActivity(), CategoryListener {
     @SuppressLint("WrongConstant")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        //setContentView(R.layout.activity_category)
+        setContentView(R.layout.activity_category)
 
         mAuth = FirebaseAuth.getInstance()
 
-        val binding: ActivityCategoryBinding =
-            DataBindingUtil.setContentView(this@CategoryActivity, R.layout.activity_category)
-        val categoryViewModel =
-            ViewModelProviders.of(this@CategoryActivity).get(CategoryViewModel::class.java)
+        // MVVM implementation use Dagger
+        DaggerCategoryActivity_CategoryComponent.create().inject(this@CategoryActivity)
+        categoryViewModel = ViewModelProviders.of(this@CategoryActivity, factory).get(CategoryViewModel::class.java)
+        categoryViewModel.getArrayList().observe(this@CategoryActivity, Observer {
 
-        // Filter list
-        btn_filter.setOnClickListener {
-
-        }
+            mAdapter = CategoryAdapter(this@CategoryActivity, it)
+            recycler_category.layoutManager = LinearLayoutManager(applicationContext, OrientationHelper.VERTICAL, false)
+            recycler_category.adapter = mAdapter
+            recycler_category.setHasFixedSize(true)
+        })
 
         // Sort list
         btn_sort.setOnClickListener {
@@ -65,6 +73,11 @@ class CategoryActivity : AppCompatActivity(), CategoryListener {
             builder.show()
         }
 
+        // Filter list
+        btn_filter.setOnClickListener {
+
+        }
+
         // Search
         txt_category_search.addTextChangedListener(object: TextWatcher {
             override fun afterTextChanged(s: Editable?) {}
@@ -75,20 +88,24 @@ class CategoryActivity : AppCompatActivity(), CategoryListener {
                 mAdapter.search(s.toString())
             }
         })
-        binding.categoryViewModel = categoryViewModel
-
-        categoryViewModel.getArrayList().observe(this@CategoryActivity, Observer { category ->
-            mAdapter = CategoryAdapter(this@CategoryActivity, category)
-            recycler_category.layoutManager = LinearLayoutManager(applicationContext, OrientationHelper.VERTICAL, false)
-            recycler_category.adapter = mAdapter
-            recycler_category.setHasFixedSize(true)
-        })
 
         categoryViewModel.categoryListener = this@CategoryActivity
 
         // Toolbar implementation
         toolbar = findViewById(R.id.toolbar_category)
-        setSupportActionBar(binding.toolbarCategory)
+        setSupportActionBar(toolbar_category)
+    }
+
+    // Dagger create
+    @Component (modules = [CategoryModule::class])
+    interface CategoryComponent {
+        fun inject (activity: CategoryActivity)
+    }
+    @Module
+    abstract class CategoryModule {
+
+        @Binds
+        abstract fun bindViewmodelFactory(factory: CategoryViewModelFactory): ViewModelProvider.Factory
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {

@@ -2,7 +2,6 @@ package com.infernal93.listwithsearchmvvm.remote
 
 import androidx.lifecycle.MutableLiveData
 import com.infernal93.listwithsearchmvvm.entity.Category
-import com.infernal93.listwithsearchmvvm.views.interfaces.CategoryListener
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -12,11 +11,13 @@ import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import java.io.IOException
+import javax.inject.Inject
 
 /**
  * Created by Armen Mkhitaryan on 30.12.2019.
  */
-class CategoryClient {
+@Suppress("NULLABILITY_MISMATCH_BASED_ON_JAVA_ANNOTATIONS")
+class CategoryClient @Inject constructor(){
 
     companion object {
         const val KEY = "5de979d34658275ac9dc2375"
@@ -61,9 +62,7 @@ class CategoryClient {
             }
 
             override fun onResponse(call: Call<List<Category>>, response: Response<List<Category>>) {
-                //Log.d(TAG, "onResponse: ${response.body()!![0].name}")
                 mutableLiveData.postValue(response.body() as ArrayList<Category>?)
-                 //presenter.setupCategoryList(categoryList = category as ArrayList<Category>)
             }
         })
         return mutableLiveData
