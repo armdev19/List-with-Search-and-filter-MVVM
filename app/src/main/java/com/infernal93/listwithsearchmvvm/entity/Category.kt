@@ -7,12 +7,12 @@ import com.google.gson.annotations.SerializedName
  */
 
 data class Category(
-    @SerializedName("category")
+    @SerializedName(value = "category")
     val category: String,
-    @SerializedName("icon")
+    @SerializedName(value = "icon")
     val icon: String,
-    @SerializedName("name")
+    @SerializedName(value = "name")
     val name: String,
-    @SerializedName("price")
+    @SerializedName(value = "price")
     val price: Int
 )

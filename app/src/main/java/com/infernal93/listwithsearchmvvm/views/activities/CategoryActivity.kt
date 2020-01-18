@@ -95,6 +95,7 @@ class CategoryActivity : AppCompatActivity(), CategoryListener {
         toolbar = findViewById(R.id.toolbar_category)
         setSupportActionBar(toolbar_category)
     }
+    
 
     // Dagger create
     @Component (modules = [CategoryModule::class])
